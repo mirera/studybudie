@@ -1,0 +1,77 @@
+{% extends 'main.htm' %}
+
+
+
+{% block content %}
+
+<style>
+    .room-wrapper{
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+    }
+</style>
+
+<div class="room-wrapper">
+    <div>
+        <div class="room-meta-data">
+            <h1>{{room.name}}</h1>
+            <small>Created on {{room.created}}</small>
+            <small>Last updated: {{room.updated}}</small>
+        </div> <br>
+        <div class="room-description">
+            <p>{{room.description}}</p>
+        </div>
+        
+        <div class="comments-wrapper">
+            <h4>Conversations</h4>
+            <hr>
+                {% for message in room_messages %}
+                <div>
+                    <!-- "|" filters time created and "timesince"  make it timme since instead of date  -->
+                    <small>@{{message.user}}  {{message.created|timesince}} ago</small>
+                    <p>{{ message.body}}</p>
+
+                    {% if request.user == message.user%}
+                    <a href="{% url 'delete_message' message.id %}">Delete</a>
+                    {% endif %}
+                    <hr>
+                </div>
+                {% endfor %}
+
+                {% if request.user.is_authenticated %}
+                <div class="comment-form">
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <input type="text" placeholder="Leave your comment.." name="comment">
+                    </form>
+                </div>
+                {% endif %}
+        </div>
+        <div>
+            {% if request.user == room.host %}
+            <a href="{% url 'update-room' room.id %}">Edit</a>
+            <a href="{% url 'delete-room' room.id %}">Delete</a>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <div class="partcipants-wrapper">
+        <h3>Participants</h3>
+        <hr>
+        {% for user in participants %}
+            <div>
+                <p>@{{user.username}}</p>
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}
+    
+
+
+

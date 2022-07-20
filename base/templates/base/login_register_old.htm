@@ -1,0 +1,44 @@
+{% extends 'main.htm' %}
+
+
+
+
+{% block content %}
+
+<!-- check if page is login if so render login page otherwise render register. -->
+{% if page == 'login' %}
+<div>
+    
+    <form method="POST" action="">
+        {% csrf_token %}
+
+        <label for="">Username:</label>
+        <input type="text" name="username" placeholder="Enter password" >
+        <label for="">Password:</label>
+        <input type="password" name="password" placeholder="Enter password" >
+        <input type="submit" value="Login">
+        <p>Haven't signed up?</p>
+        <a href="{% url 'register' %}">Sign up</a>
+
+    </form>
+
+</div>
+{% else %}
+<div>
+    
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Register">
+        <p>Already signed up?</p>
+        <a href="{% url 'login' %}">Sign in</a>
+
+    </form>
+
+</div>
+
+{% endif %}
+
+{% endblock content %}
+
+

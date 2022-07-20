@@ -1,0 +1,28 @@
+{% extends 'main.htm' %}
+
+{% block content %}
+
+<style>
+    .main-wrapper{
+        display: grid;
+        grid-template-columns: 1fr 3fr 1fr;
+    }
+</style>
+
+<h2>{{user.username}}</h2>
+<div class="main-wrapper">
+    <div class="topics-components">
+        {% include 'base/topics_components.htm' %}
+    </div>
+
+    <div class="feed-components">
+        {% include 'base/feed_components.htm' %}
+    </div>
+
+    <div class="activity-components">
+        {% include 'base/activity_components.htm' %}
+    </div>
+</div>
+
+
+{% endblock content %}
